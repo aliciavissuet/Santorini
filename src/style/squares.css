@@ -1,0 +1,15 @@
+.board-row button {
+padding: 60px;
+font-size: 16px;
+margin: 0px;
+margin-right: 0px;
+background-color: white;
+color: blue;
+border: 10px solid #F8BB38  ;
+
+}
+.board-row button:hover {
+  background-color: #F8D68D  ;
+  border: 10px solid #F8BB38;
+  cursor: pointer;
+}
