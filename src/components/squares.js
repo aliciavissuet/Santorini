@@ -45,8 +45,8 @@ export default class Squares extends Component {
   handleSelect(newClick){
     const i = newClick
 
-    if (this.state.squares[i] === "X" && this.state.player1Turn ||
-    this.state.squares[i] === "T" && !this.state.player1Turn) {
+    if ((this.state.squares[i] === "X" || this.state.squares[i] === "x") && this.state.player1Turn ||
+    (this.state.squares[i] === "T" || this.state.squares[i] === "t") && !this.state.player1Turn) {
      // CASE 3 : IF CLICK ON NOT SELECTED SQUARE WITH X
      this.setState({bgColor:Array(25).fill('red', i, i+1)})
      this.setState({selected:Array(25).fill(true,i,i+1)})
@@ -59,25 +59,52 @@ export default class Squares extends Component {
 
   handleMove(newClick){
     const prevX = this.state.selected.indexOf(true)
+    const only1 = this.state.squares
+
+    function getAllIndexes(arr, val) {
+      var indexes = [], i;
+
+      for (i = 0; i < arr.length; i++)
+          if (arr[i] === val)
+              indexes.push(i);
+      return indexes;
+}
+
     function validClick(j,newClick, height) {
         const currlocationcheckleft = [j+1, j+5, j-5, j+6, j-4]
         const currlocationcheckright = [j-1, j-5, j+5, j+4, j-6]
         const currlocationcheckelse = [ j+1, j-1, j+5, j-5, j+6, j-6, j+4, j-4]
+        const only1x = getAllIndexes(only1, "X")
+        const only1t = getAllIndexes(only1, "T")
         let validClick_ = false;
+
         if (j % 5 === 0
-        && currlocationcheckleft.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]){
+        && currlocationcheckleft.indexOf(newClick)>-1
+        && height[j]+1 >= height[newClick]
+        && only1t.indexOf(newClick) <= -1
+        && only1x.indexOf(newClick) <= -1){
 
           validClick_ = true
+
         } else if (j % 5 === 4
-      && currlocationcheckright.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]) {
+      && currlocationcheckright.indexOf(newClick)>-1
+      && height[j]+1 >= height[newClick]
+      && only1t.indexOf(newClick) <= -1
+      && only1x.indexOf(newClick) <= -1) {
 
         validClick_ = true
-      } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]) {
+
+      } else if (j %5 != 0 && j%5 != 4
+        && currlocationcheckelse.indexOf(newClick)>-1
+        && height[j]+1 >= height[newClick]
+        && only1t.indexOf(newClick) <= -1
+        && only1x.indexOf(newClick) <= -1) {
 
         validClick_ = true
       }
       return validClick_;
     }
+
     function whoseTurn(p) {
       let playernumber = ""
       if (p) {
@@ -110,20 +137,47 @@ export default class Squares extends Component {
   }
 
   handleBuild(newClick){
+    const only1 = this.state.squares
+    function winthroughbuild(newBuildingHeight){
+      let gameOver = false;
+      if (newBuildingHeight === 4) {
+      return true
+      }
+      return false
+    }
+
+    function getAllIndexes(arr, val) {
+      var indexes = [], i;
+
+      for (i = 0; i < arr.length; i++)
+          if (arr[i] === val)
+              indexes.push(i);
+      return indexes;
+    }
+
     function validClick(j,newClick) {
         const currlocationcheckleft = [j+1, j+5, j-5, j+6, j-4]
         const currlocationcheckright = [j-1, j-5, j+5, j+4, j-6]
         const currlocationcheckelse = [ j+1, j-1, j+5, j-5, j+6, j-6, j+4, j-4]
+        const only1x = getAllIndexes(only1, "X")
+        const only1t = getAllIndexes(only1, "T")
+
         let validClick_ = false;
         if (j % 5 === 0
-        && currlocationcheckleft.indexOf(newClick)>-1){
+        && currlocationcheckleft.indexOf(newClick)>-1
+        && only1x.indexOf(newClick)<=-1
+        && only1t.indexOf(newClick <=-1)){
 
           validClick_ = true
         } else if (j % 5 === 4
-      && currlocationcheckright.indexOf(newClick)>-1) {
+      && currlocationcheckright.indexOf(newClick)>-1
+      && only1x.indexOf(newClick)<=-1
+      && only1t.indexOf(newClick <=-1)){
 
         validClick_ = true
-      } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1) {
+      } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1
+      && only1x.indexOf(newClick)<=-1
+      && only1t.indexOf(newClick <=-1)){
 
         validClick_ = true
       }
@@ -132,11 +186,18 @@ export default class Squares extends Component {
 
     if (validClick(this.state.currentlocation.indexOf(true),newClick)) {
       const i = newClick
+      const squares = this.state.squares
       const buildingheight = this.state.buildingheight.fill((this.state.buildingheight[i]+1), i, i+1)
       const player1Turn = !this.state.player1Turn
-      this.setState({buildingheight, phase:"select worker", player1Turn:player1Turn})
-    }
+      this.setState({buildingheight})
+        if (this.state.buildingheight[i] === 4) {
+
+          this.setState({phase: "Game Over!"});
+        } else {
+          this.setState({buildingheight, phase:"select worker", player1Turn:player1Turn});
+        }
   }
+}
 
 
 
@@ -161,11 +222,22 @@ export default class Squares extends Component {
       }
       return playernumber;
     }
+    function message(phase, player) {
+      let message = ""
+      if (phase === "Game Over!") {
+        message = "Game Over! Congratulations, Player "+ player
+      } else {
+        message = "Game in progress"
+      }
+      return message
+    }
 
     return (
       <div>
         <h1> Phase: {this.state.phase}</h1>
         <h2> Turn: Player  {whoseTurn(this.state.player1Turn)}  </h2>
+
+        <h3>  {message(this.state.phase, whoseTurn(this.state.player1Turn))} </h3>
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
