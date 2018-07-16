@@ -14,13 +14,14 @@ export default class Squares extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(25).fill("X", 12, 13),
+      squares: Array(25).fill("X", 12, 13).fill("X", 0, 1),
       bgColor: Array(25).fill('white'),
       selected: Array(25).fill(false),
       currentlocation: Array(25).fill(true, 12, 13),
       buildingheight: Array(25).fill(0),
       workerSelected: null,
       phase: "select worker"
+
 
     };
   }
@@ -54,20 +55,21 @@ export default class Squares extends Component {
 
 
   handleMove(newClick){
-    function validClick(j,newClick) {
+    const prevX = this.state.selected.indexOf(true)
+    function validClick(j,newClick, height) {
         const currlocationcheckleft = [j+1, j+5, j-5, j+6, j-4]
         const currlocationcheckright = [j-1, j-5, j+5, j+4, j-6]
         const currlocationcheckelse = [ j+1, j-1, j+5, j-5, j+6, j-6, j+4, j-4]
         let validClick_ = false;
         if (j % 5 === 0
-        && currlocationcheckleft.indexOf(newClick)>-1){
+        && currlocationcheckleft.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]){
 
           validClick_ = true
         } else if (j % 5 === 4
-      && currlocationcheckright.indexOf(newClick)>-1) {
+      && currlocationcheckright.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]) {
 
         validClick_ = true
-      } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1) {
+      } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1 && height[j]+1 >= height[newClick]) {
 
         validClick_ = true
       }
@@ -82,10 +84,11 @@ export default class Squares extends Component {
     } else if (this.state.selected.indexOf(true)>-1){
       // CASE 2 : IF CLICK ON ANY SQUARE WHILE X IS SELECTED
 
-      if (validClick(this.state.currentlocation.indexOf(true),newClick)) {
+      if (validClick(this.state.currentlocation.indexOf(true),newClick, this.state.buildingheight)) {
         const bgColor = Array(25).fill('white');
+        const squares = this.state.squares.fill("X", i, i+1).fill(null, prevX, prevX+1)
         const selected = Array(25).fill(false)
-        const squares = Array(25).fill("X", i, i+1)
+
         const currentlocation = Array(25).fill(true, i, i+1)
 
         this.setState({squares,bgColor,selected, phase:"build layer", currentlocation})
