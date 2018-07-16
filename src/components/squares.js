@@ -88,7 +88,7 @@ export default class Squares extends Component {
         const squares = Array(25).fill("X", i, i+1)
         const currentlocation = Array(25).fill(true, i, i+1)
 
-        this.setState({squares,bgColor,selected, phase:"build layer"})
+        this.setState({squares,bgColor,selected, phase:"build layer", currentlocation})
       }
 
     }
