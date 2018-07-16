@@ -14,13 +14,14 @@ export default class Squares extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(25).fill("X", 12, 13).fill("X", 0, 1),
+      squares: Array(25).fill("X", 12, 13).fill("X", 0, 1).fill("T", 1, 2).fill("T", 13, 14),
       bgColor: Array(25).fill('white'),
       selected: Array(25).fill(false),
       currentlocation: Array(25).fill(true, 12, 13),
       buildingheight: Array(25).fill(0),
       workerSelected: null,
-      phase: "select worker"
+      phase: "select worker",
+      player1Turn: true
 
 
     };
@@ -43,7 +44,9 @@ export default class Squares extends Component {
 }
   handleSelect(newClick){
     const i = newClick
-    if (this.state.squares[i] === "X") {
+
+    if (this.state.squares[i] === "X" && this.state.player1Turn ||
+    this.state.squares[i] === "T" && !this.state.player1Turn) {
      // CASE 3 : IF CLICK ON NOT SELECTED SQUARE WITH X
      this.setState({bgColor:Array(25).fill('red', i, i+1)})
      this.setState({selected:Array(25).fill(true,i,i+1)})
@@ -75,6 +78,15 @@ export default class Squares extends Component {
       }
       return validClick_;
     }
+    function whoseTurn(p) {
+      let playernumber = ""
+      if (p) {
+        playernumber = "X";
+      } else {
+        playernumber = "T";
+      }
+      return playernumber;
+    }
 
     const i = newClick;
 
@@ -86,7 +98,7 @@ export default class Squares extends Component {
 
       if (validClick(this.state.currentlocation.indexOf(true),newClick, this.state.buildingheight)) {
         const bgColor = Array(25).fill('white');
-        const squares = this.state.squares.fill("X", i, i+1).fill(null, prevX, prevX+1)
+        const squares = this.state.squares.fill(whoseTurn(this.state.player1Turn), i, i+1).fill(null, prevX, prevX+1)
         const selected = Array(25).fill(false)
 
         const currentlocation = Array(25).fill(true, i, i+1)
@@ -121,9 +133,12 @@ export default class Squares extends Component {
     if (validClick(this.state.currentlocation.indexOf(true),newClick)) {
       const i = newClick
       const buildingheight = this.state.buildingheight.fill((this.state.buildingheight[i]+1), i, i+1)
-      this.setState({buildingheight, phase:"select worker"})
+      const player1Turn = !this.state.player1Turn
+      this.setState({buildingheight, phase:"select worker", player1Turn:player1Turn})
     }
   }
+
+
 
   renderSquare(i) {
     return (
@@ -137,9 +152,20 @@ export default class Squares extends Component {
 
 
   render(){
+    function whoseTurn(p) {
+      let playernumber = ""
+      if (p) {
+        playernumber = "X";
+      } else {
+        playernumber = "T";
+      }
+      return playernumber;
+    }
+
     return (
       <div>
         <h1> Phase: {this.state.phase}</h1>
+        <h2> Turn: Player  {whoseTurn(this.state.player1Turn)}  </h2>
           <div className="board-row">
             {this.renderSquare(0)}
             {this.renderSquare(1)}
