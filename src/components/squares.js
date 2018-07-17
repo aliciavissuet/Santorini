@@ -3,12 +3,31 @@ import '../style/squares.css';
 
 function Square(props) {
 
-  return (
-    <button className="square" onClick={props.onClick} style={{backgroundColor:props.backgroundColor}}>
-      {props.value}{props.height}
-    </button>
-  );
+      return (
+        <button className="square" onClick={props.onClick} style={{backgroundColor:props.backgroundColor}}>
+          {props.value}{props.height}
+        </button>
+      );
 }
+
+function whoseTurn(p) {
+    let playernumber = ""
+    if (p) {
+      playernumber = "X";
+    } else {
+      playernumber = "T";
+    }
+    return playernumber;
+  }
+
+function getAllIndexes(arr, val) {
+  var indexes = [], i;
+
+  for (i = 0; i < arr.length; i++)
+      if (arr[i] === val)
+          indexes.push(i);
+  return indexes;
+  }
 
 export default class Squares extends Component {
   constructor(props) {
@@ -17,6 +36,7 @@ export default class Squares extends Component {
       squares: Array(25).fill("X", 12, 13).fill("X", 0, 1).fill("T", 1, 2).fill("T", 13, 14),
       bgColor: Array(25).fill('white'),
       selected: Array(25).fill(false),
+      hasWorker: Array(25).fill(false).fill(true, 12, 14).fill(true, 0, 2),
       currentlocation: Array(25).fill(true, 12, 13),
       buildingheight: Array(25).fill(0),
       workerSelected: null,
@@ -26,6 +46,7 @@ export default class Squares extends Component {
 
     };
   }
+
   handleClick(newClick) {
 
     if (this.state.phase === "select worker") {
@@ -41,25 +62,94 @@ export default class Squares extends Component {
 
 
 
-}
+  }
+
   handleSelect(newClick){
     const i = newClick
 
-    if ((this.state.squares[i] === "X" || this.state.squares[i] === "x") && this.state.player1Turn ||
-    (this.state.squares[i] === "T" || this.state.squares[i] === "t") && !this.state.player1Turn) {
-     // CASE 3 : IF CLICK ON NOT SELECTED SQUARE WITH X
-     this.setState({bgColor:Array(25).fill('red', i, i+1)})
-     this.setState({selected:Array(25).fill(true,i,i+1)})
-     this.setState({currentlocation:Array(25).fill(true, i, i+1)})
-     this.setState({phase:"move worker"});
-    }
+    if ((this.state.squares[i] === "X"  && this.state.player1Turn) ||
+    (this.state.squares[i] === "T" && !this.state.player1Turn)) {
+       // CASE 3 : IF CLICK ON NOT SELECTED SQUARE WITH X
+       this.setState({bgColor:Array(25).fill('red', i, i+1)})
 
+       this.setState({selected:Array(25).fill(true,i,i+1)})
+       this.setState({currentlocation:Array(25).fill(true, i, i+1)})
+       this.setState({phase:"move worker"})
+       this.possibleMoves2(i)
+
+    }
   }
 
+  possibleMoves2 (currentLocation){
+      const only1 = this.state.squares
+      function validClick(j,newClick, height) {
+          const currlocationcheckleft = [j+1, j+5, j-5, j+6, j-4]
+          const currlocationcheckright = [j-1, j-5, j+5, j+4, j-6]
+          const currlocationcheckelse = [ j+1, j-1, j+5, j-5, j+6, j-6, j+4, j-4]
+          const only1x = getAllIndexes(only1, "X")
+          const only1t = getAllIndexes(only1, "T")
+          let validClick_ = false;
 
+          if (j % 5 === 0
+          && currlocationcheckleft.indexOf(newClick)>-1
+          && height[j]+1 >= height[newClick]
+          && only1t.indexOf(newClick) <= -1
+          && only1x.indexOf(newClick) <= -1){
+
+            validClick_ = true
+
+          } else if (j % 5 === 4
+        && currlocationcheckright.indexOf(newClick)>-1
+        && height[j]+1 >= height[newClick]
+        && only1t.indexOf(newClick) <= -1
+        && only1x.indexOf(newClick) <= -1) {
+
+          validClick_ = true
+
+        } else if (j %5 != 0 && j%5 != 4
+          && currlocationcheckelse.indexOf(newClick)>-1
+          && height[j]+1 >= height[newClick]
+          && only1t.indexOf(newClick) <= -1
+          && only1x.indexOf(newClick) <= -1) {
+
+          validClick_ = true
+        }
+        return validClick_;
+      }
+
+      const height = this.state.buildingheight
+
+      let possible = []
+      for (let newClick =0 ; newClick<25; newClick++){
+          if (validClick(currentLocation,newClick,height)){
+              possible[possible.length] = newClick
+          }
+      }
+      let bgColor = this.state.bgColor
+      bgColor[currentLocation]="pink"
+      console.log(possible)
+      for (let index_for_possible=0; index_for_possible<possible.length; index_for_possible++){
+          let i = possible[index_for_possible]
+          bgColor[i]="turquoise"
+      }
+      const bgColor_ = bgColor
+      console.log(bgColor);
+      this.setState({bgColor:bgColor_})
+  }
+
+  possibleBuilds (currentlocation) {
+      
+  }
   handleMove(newClick){
     const prevX = this.state.selected.indexOf(true)
+    const playerturn = whoseTurn(this.state.player1Turn)
     const only1 = this.state.squares
+    const only1x = getAllIndexes(only1, "X")
+    const only1t = getAllIndexes(only1, "T")
+    const builidingheight = this.state.builidingheight
+    const hasworker = this.state.hasWorker
+    const selected = this.state.selected
+
 
     function getAllIndexes(arr, val) {
       var indexes = [], i;
@@ -68,7 +158,7 @@ export default class Squares extends Component {
           if (arr[i] === val)
               indexes.push(i);
       return indexes;
-}
+    }
 
     function validClick(j,newClick, height) {
         const currlocationcheckleft = [j+1, j+5, j-5, j+6, j-4]
@@ -105,47 +195,39 @@ export default class Squares extends Component {
       return validClick_;
     }
 
-    function whoseTurn(p) {
-      let playernumber = ""
-      if (p) {
-        playernumber = "X";
-      } else {
-        playernumber = "T";
-      }
-      return playernumber;
-    }
+
+
 
     const i = newClick;
 
     if (this.state.selected[i]) {
       // CASE 1: IF CLICK ON RED SPACE
+
       this.setState({bgColor:Array(25).fill('white'),selected: Array(25).fill(false), phase:"select worker"})
     } else if (this.state.selected.indexOf(true)>-1){
-      // CASE 2 : IF CLICK ON ANY SQUARE WHILE X IS SELECTED
 
-      if (validClick(this.state.currentlocation.indexOf(true),newClick, this.state.buildingheight)) {
+      // CASE 2 : IF CLICK ON ANY SQUARE WHILE X IS SELECTED
+      if (validClick(this.state.currentlocation.indexOf(true),newClick,
+          this.state.buildingheight)) {
         const bgColor = Array(25).fill('white');
         const squares = this.state.squares.fill(whoseTurn(this.state.player1Turn), i, i+1).fill(null, prevX, prevX+1)
         const selected = Array(25).fill(false)
+        const hasWorker = this.state.hasWorker.fill(true, i, i+1).fill(false, prevX, prevX+1)
 
         const currentlocation = Array(25).fill(true, i, i+1)
+        this.setState({squares})
+        if (this.state.buildingheight[newClick] === 3) {
+          this.setState({bgColor,selected, hasWorker, phase:"Game Over!", currentlocation})
+        } else {
+        this.setState({squares,bgColor,selected, hasWorker, phase:"build layer", currentlocation})
+        }
 
-        this.setState({squares,bgColor,selected, phase:"build layer", currentlocation})
-      }
-
+            }
+        }
     }
-  }
 
   handleBuild(newClick){
     const only1 = this.state.squares
-    function winthroughbuild(newBuildingHeight){
-      let gameOver = false;
-      if (newBuildingHeight === 4) {
-      return true
-      }
-      return false
-    }
-
     function getAllIndexes(arr, val) {
       var indexes = [], i;
 
@@ -166,18 +248,18 @@ export default class Squares extends Component {
         if (j % 5 === 0
         && currlocationcheckleft.indexOf(newClick)>-1
         && only1x.indexOf(newClick)<=-1
-        && only1t.indexOf(newClick <=-1)){
+        && only1t.indexOf(newClick) <=-1){
 
           validClick_ = true
         } else if (j % 5 === 4
       && currlocationcheckright.indexOf(newClick)>-1
       && only1x.indexOf(newClick)<=-1
-      && only1t.indexOf(newClick <=-1)){
+      && only1t.indexOf(newClick) <=-1){
 
         validClick_ = true
       } else if (j %5 != 0 && j%5 != 4 && currlocationcheckelse.indexOf(newClick)>-1
       && only1x.indexOf(newClick)<=-1
-      && only1t.indexOf(newClick <=-1)){
+      && only1t.indexOf(newClick) <=-1){
 
         validClick_ = true
       }
@@ -189,17 +271,9 @@ export default class Squares extends Component {
       const squares = this.state.squares
       const buildingheight = this.state.buildingheight.fill((this.state.buildingheight[i]+1), i, i+1)
       const player1Turn = !this.state.player1Turn
-      this.setState({buildingheight})
-        if (this.state.buildingheight[i] === 4) {
-
-          this.setState({phase: "Game Over!"});
-        } else {
-          this.setState({buildingheight, phase:"select worker", player1Turn:player1Turn});
+      this.setState({buildingheight, phase:"select worker", player1Turn:player1Turn});
         }
   }
-}
-
-
 
   renderSquare(i) {
     return (
@@ -210,7 +284,6 @@ export default class Squares extends Component {
 
   );
   }
-
 
   render(){
     function whoseTurn(p) {
