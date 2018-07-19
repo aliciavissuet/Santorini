@@ -13,3 +13,29 @@ border: 10px solid #F8BB38  ;
   border: 10px solid #F8BB38;
   cursor: pointer;
 }
+.button-bar {
+    background-color: #8DE5F8;
+    border: 10px solid #8DE5F8;
+
+
+}
+.button-bar button {
+    background-color: #E2F4F8;
+    border: 5px solid #E2F4F8;
+    cursor: pointer;
+    padding: 2px;
+    margin: 2px;
+}
+.status {
+    background-color: #DBF7F5;
+    padding:7px;
+}
+.phase {
+    color:black;
+    size:20px;
+}
+.statephase {
+    color:#F71048  ;
+    size:28px;
+    font-weight: bold;
+}
