@@ -654,6 +654,7 @@ handleClick(newClick) {
   }
 
   renderSquare(i) {
+
     return (
       <Square value={this.state.squares[i]}
     backgroundColor={this.state.bgColor[i]}
