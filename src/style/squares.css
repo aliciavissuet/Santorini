@@ -1,11 +1,37 @@
+.board-rowfalse button {
+padding: 60px;
+font-size: 16px;
+margin: 0px;
+margin-right: 0px;
+color: blue;
+border: 10px solid #671f08  ;
+width: 200px;
+height: 200px;
+vertical-align:top;
+
+}
+.board-rowtrue button {
+padding: 60px;
+font-size: 16px;
+margin: 0px;
+margin-right: 0px;
+color: blue;
+border: 10px solid #4d04df  ;
+width: 200px;
+height: 200px;
+vertical-align:top;
+
+}
 .board-row button {
 padding: 60px;
 font-size: 16px;
 margin: 0px;
 margin-right: 0px;
-background-color: white;
 color: blue;
 border: 10px solid #F8BB38  ;
+width: 200px;
+height: 200px;
+vertical-align:top;
 
 }
 .board-row button:hover {
@@ -21,21 +47,84 @@ border: 10px solid #F8BB38  ;
 }
 .button-bar button {
     background-color: #E2F4F8;
-    border: 5px solid #E2F4F8;
+    border: 1px solid #E2F4F8;
     cursor: pointer;
     padding: 2px;
     margin: 2px;
 }
 .status {
     background-color: #DBF7F5;
-    padding:7px;
+    padding:5px;
 }
 .phase {
     color:black;
     size:20px;
 }
 .statephase {
-    color:#F71048  ;
+    color:#671f08  ;
     size:28px;
     font-weight: bold;
+}
+
+
+.square0null {
+    background-color: white;
+}
+.square1null {
+    background-image:url("./h10.png");
+    background-size:180px;
+
+}
+.square2null {
+    background-image:url("./h20.png");
+    background-size:180px;
+}
+.square3null {
+    background-image:url("./h30.png");
+    background-size:180px;
+}
+.square4null{
+    background-image:url("./h40.png");
+    background-size:180px;
+}
+.square0X{
+    background-image:url("./workerx.png");
+    background-size:180px;
+
+}
+.square0T{
+    background-image:url("./workert.png");
+    background-size:180px;
+}
+.square1X{
+    background-image:url("./h1x.png");
+    background-size:180px;
+}
+.square1T{
+    background-image:url("./h1t.png");
+    background-size:180px;
+}
+.square2X{
+    background-image:url("./h2x.png");
+    background-size:180px;
+}
+.square2T{
+    background-image:url("./h2t.png");
+    background-size:180px;
+}
+.square3X{
+    background-image:url("./h3x.png");
+    background-size:180px;
+}
+.square3T{
+    background-image:url("./h3t.png");
+    background-size:180px;
+}
+.squareX{
+    background-image:url("./workerx.png");
+    background-size:180px;
+}
+.squareT{
+    background-image:url("./workert.png");
+    background-size:180px;
 }

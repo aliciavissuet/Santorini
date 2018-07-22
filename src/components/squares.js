@@ -4,10 +4,13 @@ import '../style/squares.css';
 function Square(props) {
 
       return (
-        <button className="square" onClick={props.onClick} style={{backgroundColor:props.backgroundColor}}>
-          {props.value}{props.height}
+        <button className={"square"+props.height+props.value} onClick={props.onClick} style={{backgroundColor: props.backgroundColor}}>
+
         </button>
       );
+}
+function setColor(element, color) {
+     element.style.backgroundColor = color
 }
 
 function whoseTurn(p) {
@@ -280,7 +283,7 @@ handleClick(newClick) {
           let i = notpossible[index_for_notpossible]
           bgColor[i]="white"
       }
-      bgColor[currentLocation]="pink"
+      bgColor[currentLocation]="#c2f5f2"
       const bgColor_ = bgColor
 
       this.setState({bgColor:bgColor_})
@@ -339,13 +342,13 @@ handleClick(newClick) {
       for (let index_for_possiblebuild=0; index_for_possiblebuild<possiblebuildlocations.length;
           index_for_possiblebuild++){
           let i = possiblebuildlocations[index_for_possiblebuild]
-          bgColor[i]="yellow"
+          bgColor[i]="#a2f2f6"
       }
       for (let index_for_notpossible=0; index_for_notpossible<notpossible.length; index_for_notpossible++){
           let i = notpossible[index_for_notpossible]
           bgColor[i]="white"
       }
-      bgColor[currentLocation]="pink"
+      bgColor[currentLocation]="#c2f5f2"
 
       const bgColor_ = bgColor
 
@@ -658,6 +661,7 @@ handleClick(newClick) {
       <Square value={this.state.squares[i]}
     backgroundColor={this.state.bgColor[i]}
     height={this.state.buildingheight[i]}
+    player={this.state.player1Turn}
     onClick={() => this.handleClick(i)} />
 
   );
@@ -695,35 +699,35 @@ handleClick(newClick) {
         <span className="phase">Phase:</span><span className="statephase"> {this.state.phase}</span><span className="phase"> Turn:</span><span className="statephase"> Player  {whoseTurn(this.state.player1Turn)}  </span>
         </header>
         </div>
-          <div className="board-row">
+          <div className={"board-row"+this.state.player1Turn}>
             {this.renderSquare(0)}
             {this.renderSquare(1)}
             {this.renderSquare(2)}
             {this.renderSquare(3)}
             {this.renderSquare(4)}
           </div>
-          <div className="board-row">
+          <div className={"board-row"+this.state.player1Turn}>
             {this.renderSquare(5)}
             {this.renderSquare(6)}
             {this.renderSquare(7)}
             {this.renderSquare(8)}
             {this.renderSquare(9)}
           </div>
-          <div className="board-row">
+          <div className={"board-row"+this.state.player1Turn}>
             {this.renderSquare(10)}
             {this.renderSquare(11)}
             {this.renderSquare(12)}
             {this.renderSquare(13)}
             {this.renderSquare(14)}
             </div>
-          <div className="board-row">
+          <div className={"board-row"+this.state.player1Turn}>
             {this.renderSquare(15)}
             {this.renderSquare(16)}
             {this.renderSquare(17)}
             {this.renderSquare(18)}
             {this.renderSquare(19)}
           </div>
-          <div className="board-row">
+          <div className={"board-row"+this.state.player1Turn}>
           {this.renderSquare(20)}
           {this.renderSquare(21)}
           {this.renderSquare(22)}
