@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import '../style/squares.css';
 
+
 function Square(props) {
 
       return (

@@ -5,8 +5,8 @@ margin: 0px;
 margin-right: 0px;
 color: blue;
 border: 10px solid #671f08  ;
-width: 200px;
-height: 200px;
+width: 100px;
+height: 100px;
 vertical-align:top;
 
 }
@@ -17,8 +17,8 @@ margin: 0px;
 margin-right: 0px;
 color: blue;
 border: 10px solid #4d04df  ;
-width: 200px;
-height: 200px;
+width: 100px;
+height: 100px;
 vertical-align:top;
 
 }
@@ -29,8 +29,8 @@ margin: 0px;
 margin-right: 0px;
 color: blue;
 border: 10px solid #F8BB38  ;
-width: 200px;
-height: 200px;
+width: 100px;
+height: 100px;
 vertical-align:top;
 
 }
@@ -71,60 +71,60 @@ vertical-align:top;
     background-color: white;
 }
 .square1null {
-    background-image:url("./h10.png");
-    background-size:180px;
+    background-image:url("../assets/h10.png");
+    background-size:120px;
 
 }
 .square2null {
-    background-image:url("./h20.png");
-    background-size:180px;
+    background-image:url("../assets/h20.png");
+    background-size:120px;
 }
 .square3null {
-    background-image:url("./h30.png");
-    background-size:180px;
+    background-image:url("../assets/h30.png");
+    background-size:120px;
 }
 .square4null{
-    background-image:url("./h40.png");
-    background-size:180px;
+    background-image:url("../assets/h40.png");
+    background-size:120px;
 }
 .square0X{
-    background-image:url("./workerx.png");
-    background-size:180px;
+    background-image:url("../assets/workerx.png");
+    background-size:120px;
 
 }
 .square0T{
-    background-image:url("./workert.png");
-    background-size:180px;
+    background-image:url("../assets/workert.png");
+    background-size:120px;
 }
 .square1X{
-    background-image:url("./h1x.png");
-    background-size:180px;
+    background-image:url("../assets/h1x.png");
+    background-size:120px;
 }
 .square1T{
-    background-image:url("./h1t.png");
-    background-size:180px;
+    background-image:url("../assets/h1t.png");
+    background-size:120px;
 }
 .square2X{
-    background-image:url("./h2x.png");
-    background-size:180px;
+    background-image:url("../assets/h2x.png");
+    background-size:120px;
 }
 .square2T{
-    background-image:url("./h2t.png");
-    background-size:180px;
+    background-image:url("../assets/h2t.png");
+    background-size:120px;
 }
 .square3X{
-    background-image:url("./h3x.png");
-    background-size:180px;
+    background-image:url("../assets/h3x.png");
+    background-size:120px;
 }
 .square3T{
-    background-image:url("./h3t.png");
-    background-size:180px;
+    background-image:url("../assets/h3t.png");
+    background-size:120px;
 }
 .squareX{
-    background-image:url("./workerx.png");
-    background-size:180px;
+    background-image:url("../assets/workerx.png");
+    background-size:120px;
 }
 .squareT{
-    background-image:url("./workert.png");
-    background-size:180px;
+    background-image:url("../assets/workert.png");
+    background-size:120px;
 }

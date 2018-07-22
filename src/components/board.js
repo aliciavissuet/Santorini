@@ -1,22 +1,18 @@
 import React, { Component } from "react";
 import Squares from './squares.js';
-
+import header2 from '../header2.png';
 
 export default class Board extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-      layerCount: 0,
-      isSelected: false,
-    };
-  }
 
   render(){
     return (
 
-      <div>
+      <div className ="Santorini" >
+          <header className="App-header">
+
+              <h2>Santorini <img className="header-img" src={header2} height={"60"}/></h2>
+          </header>
+
       <Squares
           />
       </div>

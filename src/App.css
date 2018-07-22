@@ -9,7 +9,7 @@
   color: #671f08;
   font-family: noteworthy;
   font-size: 40px;
-  margin: 15px;
+  margin: 0px;
 
 
 }
@@ -24,6 +24,13 @@
 .App-header .header-img {
     size: 100px;
     justify-content: left;
+}
+
+.Santorini {
+  margin: 100px;
+  border: 3px solid black;
+  height: 1000px;
+  width: 1200px;
 }
 
 @keyframes App-logo-spin {
